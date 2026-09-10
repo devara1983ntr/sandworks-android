@@ -1,0 +1,6 @@
+{
+  "name": "SAND WORKS",
+  "description": "Industrial sand-loading trip management, labour and driver participation, automatic whole-rupee money calculation, attendance, daily reconciliation, reports, and local data safety.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,69 @@
+name: Build and Release Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Debug APK & Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Make Gradlew Executable
+        run: chmod +x gradlew
+
+      - name: Build Android Debug APK
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sandworks-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: SAND WORKS v1.0.0 — Android Debug APK
+          draft: false
+          prerelease: false
+          body: |
+            # SAND WORKS Android APK (Testing Build)
+            
+            Welcome to the official **SAND WORKS** Android application build.
+            
+            ### Download Instructions:
+            1. Download `app-debug.apk` below to your Android device.
+            2. Open the file on your device and tap **Install** (allow "Install Unknown Apps" if prompted).
+            3. Open **SAND WORKS** and begin testing.
+            
+            ### Included Features:
+            - **Single-User Offline First**: Complete Room SQLite offline storage; no internet required.
+            - **Exact Whole-Rupee Money Engine**: Rounding algorithm ensuring total distribution exactly equals trip rate without losing paise.
+            - **Fleet & Loader Trip Logging**: Record trips with tractor selection, loaders with full/half shares, and assigned drivers.
+            - **Attendance & Accrual Workstations**:
+              - Driver Shifts & Trip Accruals with customizable wage rules.
+              - Labourer Days workstation with leaderboard and earnings breakdown.
+              - Auto-mark attendance for active trip loaders with 1 tap.
+            - **Daily Reconciliation & Day Closure**: Open, close, and reopen work days with complete audit trails.
+            - **Data Health & Encrypted Backup**: Verify database integrity, export SQLite JSON backups, and restore with 1 tap.
+          files: app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
