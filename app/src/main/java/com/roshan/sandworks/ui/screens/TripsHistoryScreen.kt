@@ -453,7 +453,7 @@ fun TripsHistoryScreen(
                     Button(
                         onClick = {
                             val participants = selectedLoaderIds.map { (pid, ptype) ->
-                                MoneyEngine.ParticipantInput(personId = pid, participationType = ptype)
+                                MoneyEngine.ParticipantInput(personId = pid, isHalfShare = ptype == ParticipationType.HALF)
                             }
                             if (participants.isNotEmpty() && editTractorId.isNotBlank()) {
                                 viewModel.editTrip(

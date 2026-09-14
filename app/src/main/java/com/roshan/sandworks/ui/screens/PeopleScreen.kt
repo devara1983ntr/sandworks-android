@@ -133,7 +133,6 @@ fun PeopleScreen(
                             )
                             Button(
                                 onClick = {
-                                    typeInput = if (selectedTab == 0) PersonType.LABOURER else PersonType.DRIVER
                                     showAddPersonDialog = true
                                 },
                                 colors = ButtonDefaults.buttonColors(containerColor = BrandOrange)
