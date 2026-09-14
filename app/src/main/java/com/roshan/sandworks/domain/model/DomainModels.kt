@@ -176,7 +176,9 @@ data class PersonSummary(
     val presentDays: Int,
     val absentDays: Int,
     val unmarkedDays: Int
-)
+) {
+    val attendanceDays: Int get() = presentDays
+}
 
 data class LeaderboardEntry(
     val rank: Int,

@@ -12,6 +12,7 @@ val BrandSlate = Color(0xFF20262B)
 val BrandSteel = Color(0xFF66717A)
 val BrandOffWhite = Color(0xFFF5F7F8)
 val BrandMuted = Color(0xFFA7B0B7)
+val BrandDarkSurface = Color(0xFF181D22)
 
 // Light Theme
 val LightBackground = Color(0xFFF6F7F8)

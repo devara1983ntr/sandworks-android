@@ -125,6 +125,8 @@ class SandWorksViewModel(
         refreshDateData(date)
     }
 
+    fun selectDate(date: String) = setSelectedDate(date)
+
     fun refreshDateData(date: String) {
         viewModelScope.launch {
             _dailySummary.value = repository.getDailySummary(date)
@@ -174,13 +176,15 @@ class SandWorksViewModel(
         tripId: String,
         tractorId: String,
         driverId: String?,
-        ratePaise: Long,
+        ratePaise: Long = MoneyEngine.STANDARD_RATE_PAISE,
         participants: List<MoneyEngine.ParticipantInput>,
-        adjustments: Map<String, Long> = emptyMap()
+        adjustments: Map<String, Long> = emptyMap(),
+        onSuccess: () -> Unit = {}
     ) {
         viewModelScope.launch {
             repository.editTrip(tripId, tractorId, driverId, ratePaise, participants, adjustments)
             refreshDateData(_selectedDate.value)
+            onSuccess()
         }
     }
 
@@ -287,27 +291,6 @@ class SandWorksViewModel(
         }
         sb.append("\nRecorded via SAND WORKS (Local Device Storage)")
         return sb.toString()
-    }
-
-    fun editTrip(
-        tripId: String,
-        tractorId: String,
-        driverId: String?,
-        participants: List<MoneyEngine.ParticipantInput>,
-        adjustments: Map<String, Long> = emptyMap(),
-        onSuccess: () -> Unit = {}
-    ) {
-        viewModelScope.launch {
-            repository.editTrip(
-                tripId = tripId,
-                tractorId = tractorId,
-                driverId = driverId,
-                participants = participants,
-                adjustments = adjustments
-            )
-            refreshDateData(_selectedDate.value)
-            onSuccess()
-        }
     }
 
     suspend fun createBackupJson(): String {
