@@ -16,6 +16,7 @@ import kotlin.math.abs
 object MoneyEngine {
 
     const val DEFAULT_TRIP_RATE_PAISE: Long = 20_000L // ₹200.00
+    const val STANDARD_RATE_PAISE: Long = 20_000L
     const val PAISE_PER_RUPEE: Long = 100L
 
     data class ParticipantInput(
