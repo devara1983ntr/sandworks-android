@@ -851,16 +851,13 @@ class SandWorksRepository(
             val obj = org.json.JSONObject()
             obj.put("closureId", cl.closureId)
             obj.put("workDate", cl.workDate)
-            obj.put("closedAt", cl.closedAt)
-            obj.put("closedBy", cl.closedBy)
-            obj.put("status", cl.status)
-            obj.put("totalTrips", cl.totalTrips)
-            obj.put("activeTrips", cl.activeTrips)
-            obj.put("voidedTrips", cl.voidedTrips)
             obj.put("grossPaise", cl.grossPaise)
             obj.put("distributedPaise", cl.distributedPaise)
             obj.put("remainingPaise", cl.remainingPaise)
-            obj.put("notes", cl.notes)
+            obj.put("status", cl.status)
+            obj.put("calculatedAt", cl.calculatedAt)
+            obj.put("closedAt", cl.closedAt)
+            obj.put("reopenedAt", cl.reopenedAt)
             closeArray.put(obj)
         }
         root.put("closures", closeArray)
@@ -1031,16 +1028,13 @@ class SandWorksRepository(
                     DailyClosureEntity(
                         closureId = o.getString("closureId"),
                         workDate = o.getString("workDate"),
-                        closedAt = o.getLong("closedAt"),
-                        closedBy = o.optString("closedBy", null),
-                        status = o.getString("status"),
-                        totalTrips = o.getInt("totalTrips"),
-                        activeTrips = o.getInt("activeTrips"),
-                        voidedTrips = o.getInt("voidedTrips"),
-                        grossPaise = o.getLong("grossPaise"),
-                        distributedPaise = o.getLong("distributedPaise"),
-                        remainingPaise = o.getLong("remainingPaise"),
-                        notes = o.optString("notes", null)
+                        grossPaise = o.optLong("grossPaise", 0L),
+                        distributedPaise = o.optLong("distributedPaise", 0L),
+                        remainingPaise = o.optLong("remainingPaise", 0L),
+                        status = o.optString("status", "CLOSED"),
+                        calculatedAt = o.optLong("calculatedAt", System.currentTimeMillis()),
+                        closedAt = if (o.has("closedAt") && !o.isNull("closedAt")) o.getLong("closedAt") else null,
+                        reopenedAt = if (o.has("reopenedAt") && !o.isNull("reopenedAt")) o.getLong("reopenedAt") else null
                     )
                 )
             }

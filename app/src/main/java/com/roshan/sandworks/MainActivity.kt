@@ -305,6 +305,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 
     private fun shareText(text: String) {
         val sendIntent = Intent().apply {
